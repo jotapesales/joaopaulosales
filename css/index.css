@@ -2,18 +2,34 @@
     font-family: Gluck Regular;
     src: url('../fonts/gluck-regular.otf');
 }
+
+#menu{
+    display: none;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+#logo, #logo img{
+    cursor: pointer;
+    height: 100%;
+}
+
+
 body{
     font-family: 'Gluck Regular';
 }
 
 aside{
     overflow: hidden;
-    
+    display: inline-block;
     width: 200px;
     height: 100vh;
     background-color: white;
     letter-spacing: 2px;
     position: fixed;
+    left:0;
 }
 
 aside header{
@@ -28,8 +44,7 @@ aside header{
 #background-logo{
     width: 160px;
     position: relative;
-    top:20px;
-    left: 20px;
+    padding: 20px 20px 35px 20px;
 }
 
 #background-logo:hover{
@@ -54,14 +69,20 @@ aside a:hover{
 header a:hover{
     opacity: 1;
 }
+
+aside section{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    height: calc(100% - 135px);
+}
+
 svg{
     height: 25px;
     width: 25px;
 }
 
 footer{
-    position: absolute;
-    bottom: 0;
     margin: 20px;
 }
 
@@ -85,3 +106,24 @@ article:hover{
     transition: opacity 0.5s ease-in-out;
 }
 
+@media only screen and (max-width: 1210px){
+    #menu{
+        display: flex;
+    }
+
+    aside{
+        left: -200px;
+    }
+
+    aside header{
+        display: none;
+    }
+    aside section{
+        height: calc(100% - 70px);
+    }
+    article{
+        width: 100%;
+    }
+
+    
+}
