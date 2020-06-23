@@ -1,56 +1,71 @@
-
-function changeIMG(n){
-    return "img/background-logo"+n+".png";
-}
-
-var y = 1;
-var logo = document.getElementById("background-logo")
+var a = 1;
+var backgroundlogo = document.getElementById("background-logo")
+var logo = document.getElementById("logoimg")
 var header = document.getElementById("background-header")
+var aside = document.querySelector("aside")
 var article = document.querySelector("article")
 var articleimg = document.getElementById("article-pic")
 
+function changePNG(n,object){
+  var str = object.src;
+  object.src = str.replace(/..png$/,n+".png");
+}
+
+function slowFilter(i, filtro, object){
+  object.style.filter = filtro+"("+i+")"
+  object.style.transition = "filter 0.5s ease-in-out"
+}
+
 function trocarJPG(){
-  y++;
+  a++;
   setTimeout(function(){
-    articleimg.style.opacity = 0;
-    articleimg.style.transition = "opacity 0.5s"
+    slowFilter(0,"opacity",articleimg);
   },0);
   setTimeout(function(){
-    articleimg.src= "img/IMG_"+y+".jpg";
+    articleimg.src= "img/IMG_"+a+".jpg";
   },400);
   setTimeout(function(){
-    articleimg.style.opacity = 1;
-    articleimg.style.transition = "opacity 0.5s"
+    slowFilter(1,"opacity",articleimg);
   },500);
-  if(y == 7){
-    y = 1;
+  if(a == 7){
+    a = 1;
   }
 }
   
 var trocar = setInterval(trocarJPG,3000);
 
-function loop(i,y) {
+function loop(i,y,object) {
   setTimeout(function() {
-    logo.src = changeIMG(i);
+    changePNG(i,object);
   }, 50*y)
 }
 
+backgroundlogo.onmouseover = function(){
+  slowFilter(0,"brightness",header);
+  for (i = 1; i < 4; i++)
+    loop(i,i,backgroundlogo);
+}
+
+backgroundlogo.onmouseleave = function(){
+  slowFilter(1,"brightness",header);
+    y = 0;
+    for (i = 3; i >= 0; i--) {
+      y++;
+      (loop(i,y,backgroundlogo));
+    }
+}
 
 logo.onmouseover = function(){
-  header.style.filter = "brightness(0)";
-  header.style.transition = "filter 0.5s ease-in-out"
   for (i = 1; i < 4; i++)
-    loop(i,i);
+    loop(i,i,logo);
     
 }
 
 logo.onmouseleave = function(){
-  header.style.filter = "brightness(1)";
-  header.style.transition = "filter 0.5s ease-in-out"
     y = 0;
     for (i = 3; i >= 0; i--) {
       y++;
-      (loop(i,y));
+      (loop(i,y,logo));
     }
 }
 
@@ -61,3 +76,20 @@ articleimg.onmouseover = function(){
 articleimg.onmouseleave = function(){
   trocar = setInterval(trocarJPG,3000);
 }
+
+document.body.onresize = function() {
+  if (document.body.clientWidth > 1210) {
+      aside.style.left = "0px";
+  }
+};
+
+logo.onclick = function(){
+  if(aside.style.left != "0px"){
+    aside.style.left = "0px";
+    aside.style.height = "100vh";
+    aside.style.transition = "left 0.5s";
+  }
+  else
+    aside.style.left = "-200px";
+}
+
